@@ -64,6 +64,12 @@ class Application_Model_EntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->testData["created"], $entry->created);
     }
 
+    public function testToArray()
+    {
+        $this->entry->setOptions($this->testData);
+        $this->assertEquals($this->testData, $this->entry->toArray());
+    }
+
 
 
 }

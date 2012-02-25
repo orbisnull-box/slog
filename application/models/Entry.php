@@ -16,7 +16,6 @@ class Application_Model_Entry
 
     public function setOptions(array $options)
     {
-        //$methods = get_class_methods($this);
         foreach ($options as $key => $value) {
             $method = 'set' . ucfirst($key);
             if (method_exists($this, $method)) {
@@ -31,7 +30,7 @@ class Application_Model_Entry
     {
         $method = "set" . ucfirst($name);
         if (!method_exists($this, $method)) {
-            throw new Exception("Invalid Entry class property");
+            throw new Exception("Invalid Entry set class property");
         }
         $this->$method($value);
     }
@@ -40,7 +39,7 @@ class Application_Model_Entry
     {
         $method = "get" . ucfirst($name);
         if (!method_exists($this, $method)) {
-            throw new Exception("Invalid Entry class property");
+            throw new Exception("Invalid Entry get class property");
         }
         return $this->$method();
     }
@@ -48,7 +47,7 @@ class Application_Model_Entry
     public function setId($id)
     {
         $this->_id = (int)$id;
-        return true;
+        return $this;
     }
 
     public function getId()
@@ -59,7 +58,7 @@ class Application_Model_Entry
     public function setTitle($title)
     {
         $this->_title = (string)$title;
-        return true;
+        return $this;
     }
 
     public function getTitle()
@@ -70,7 +69,7 @@ class Application_Model_Entry
     public function setBody($body)
     {
         $this->_body = (string)$body;
-        return true;
+        return $this;
     }
 
     public function getBody()
@@ -81,7 +80,7 @@ class Application_Model_Entry
     public function setCreated($created)
     {
         $this->_created = (string)$created;
-        return true;
+        return $this;
     }
 
     public function getCreated()
@@ -89,6 +88,19 @@ class Application_Model_Entry
         return $this->_created;
     }
 
+    public function toArray()
+    {
+        $vars=get_class_vars(__CLASS__);
+        $data=array();
+        foreach ($vars as $key=>$value) {
+            $name = substr($key,1);
+            $method = "get" . ucfirst($name);
+            if (method_exists($this, $method)) {
+                $data[$name] = $this->$method();
+            }
+        }
+        return $data;
+    }
 
 }
 

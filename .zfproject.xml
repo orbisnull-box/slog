@@ -18,6 +18,9 @@
       <modelsDirectory>
         <modelFile modelName="Entry"/>
         <modelFile modelName="EntryMapper"/>
+        <dbTableDirectory>
+          <dbTableFile dbTableName="Entry"/>
+        </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <viewsDirectory>
