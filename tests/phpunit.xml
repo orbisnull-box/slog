@@ -1,17 +1,33 @@
-<phpunit bootstrap="./bootstrap.php">
-    <testsuite name="Application Test Suite">
-        <directory>./application</directory>
+<phpunit bootstrap="./bootstrap.php"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnFailure="true"
+         syntaxCheck="true">
+
+    <!-- запускаем все тесты из корневой директории -->
+    <testsuite name="Main Test Suite">
+        <directory>./</directory>
     </testsuite>
-    <testsuite name="Library Test Suite">
-        <directory>./library</directory>
-    </testsuite>
-    
+
     <filter>
-        <!-- If Zend Framework is inside your project's library, uncomment this filter -->
-        <!-- 
+        <!-- не смотрим на следующие директории -->
+        <blacklist>
+            <directory suffix=".php">/usr/share/php</directory>
+            <directory suffix=".php">../tests</directory>
+        </blacklist>
+        <!-- смотрим лишь на следующие директории -->
         <whitelist>
-            <directory suffix=".php">../../library/Zend</directory>
+            <directory suffix=".php">../application</directory>
+            <directory suffix=".php">../library</directory>
+            <exclude>
+                <directory suffix=".phtml">../application</directory>
+                <file>../application/Bootstrap.php</file>
+            </exclude>
         </whitelist>
-        -->
     </filter>
+    <logging>
+        <!-- логирование и создание отчета -->
+        <log type="coverage-html" target="./report" charset="UTF-8" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70"/>
+    </logging>
 </phpunit>
