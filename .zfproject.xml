@@ -16,6 +16,7 @@
           <actionMethod actionName="index"/>
           <actionMethod actionName="list"/>
           <actionMethod actionName="add"/>
+          <actionMethod actionName="show"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -50,6 +51,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Entry">
             <viewScriptFile forActionName="add"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Entry">
+            <viewScriptFile forActionName="show"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -92,6 +96,7 @@
             <testApplicationActionMethod forActionName="index"/>
             <testApplicationActionMethod forActionName="list"/>
             <testApplicationActionMethod forActionName="add"/>
+            <testApplicationActionMethod forActionName="show"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
