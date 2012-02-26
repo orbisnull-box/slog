@@ -39,15 +39,39 @@ class EntryController extends Zend_Controller_Action
     public function showAction()
     {
         if (null === $id = $this->getRequest()->getParam("id")) {
-            return$this->_helper->redirector("error", "Error");
+            return $this->_helper->redirector("error", "Error");
         }
 
         $entry = new Application_Model_Entry();
         $entryMapper = new Application_Model_EntryMapper();
-        if (false===$entryMapper->find($id, $entry)) {
-            return$this->_helper->redirector("error", "Error");
+        if (false === $entryMapper->find($id, $entry)) {
+            return $this->_helper->redirector("error", "Error");
         } else {
-            $this->view->entry=$entry;
+            $this->view->entry = $entry;
         }
     }
+
+    public function editAction()
+    {
+        $request = $this->getRequest();
+        $form    = new Application_Form_Entry();
+        $entry = new Application_Model_Entry();
+        $entryMapper  = new Application_Model_EntryMapper();
+        if ($request->isPost()) {
+            if ($form->isValid($request->getPost()) and $form->getValue("id")!==null) {
+                $entry->setOptions($form->getValues());
+                $entryMapper->save($entry);
+                return $this->_helper->redirector('list');
+            }
+        } else {
+            if ((null === $id = $request->getParam("id")) or (false === $entryMapper->find($id, $entry))) {
+                return $this->_helper->redirector("error", "Error");
+            }
+            $form->setDefaults($entry->toArray());
+        }
+        $this->view->form = $form;
+    }
+
+
 }
+

@@ -9,6 +9,15 @@ class Application_Form_Entry extends Zend_Form
         $this->setMethod('post');
 
         // Add an email element
+        $this->addElement('hidden', 'id', array(
+            'required'   => false,
+            'filters'    => array(),
+            'validators' => array(
+                array()
+            )
+        ));
+
+        // Add an email element
         $this->addElement('text', 'title', array(
             'label'      => 'Title:',
             'required'   => true,

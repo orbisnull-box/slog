@@ -17,6 +17,7 @@
           <actionMethod actionName="list"/>
           <actionMethod actionName="add"/>
           <actionMethod actionName="show"/>
+          <actionMethod actionName="edit"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -54,6 +55,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Entry">
             <viewScriptFile forActionName="show"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Entry">
+            <viewScriptFile forActionName="edit"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -97,6 +101,7 @@
             <testApplicationActionMethod forActionName="list"/>
             <testApplicationActionMethod forActionName="add"/>
             <testApplicationActionMethod forActionName="show"/>
+            <testApplicationActionMethod forActionName="edit"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
