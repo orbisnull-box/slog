@@ -9,20 +9,11 @@
 </head>
 <body>
 
-<div id="header" style="background-color: #EEEEEE; height: 30px;">
-    <div id="header-logo" style="float: left">
-        <b>Simple Blog</b>
-    </div>
-    <div id="header-navigation" style="float: right">
-        <a href="<?php echo $this->url(
-            array('controller'=>'entry'),
-            'default',
-            true) ?>">Blog</a>
-    </div>
-</div>
-
 <div class="container">
     <?php echo $this->layout()->content ?>
+
+    <hr />
+    <p class="pull-left muted">Powered by the <a href="https://github.com/orbisnull/slog"><b>slog</b></a> - Simple Blog</p>
 </div>
 
 </body>
