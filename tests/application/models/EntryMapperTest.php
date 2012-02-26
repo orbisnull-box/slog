@@ -109,20 +109,29 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
 
         $testDataNew=$this->testData;
         unset($testDataNew["id"]);
+        $testDataNew["created"]=date("Y-m-d h:i:s");
+
+        $testDataUpdate=$this->testData;
+        unset($testDataUpdate["created"]);
+
+
         $this->mock->expects($this->any())
             ->method("insert")
             ->with($testDataNew)
             ->will($this->returnValue(true));
+
         $this->mock->expects($this->any())
             ->method("update")
-            ->with($this->testData, array('id = ?' => "1"))
+            ->with($testDataUpdate, array('id = ?' => "1"))
             ->will($this->returnValue(true));
+
         $this->mock->expects($this->any())
             ->method("find")
             ->will($this->returnCallback("Application_Model_EntryMapperTest::getTestRowSet"));
 
 
         //test insert
+        $testDataNew["id"]=0;
         $entry = new Application_Model_Entry($testDataNew);
         $result = $this->mapper->save($entry);
         $this->assertTrue($result);

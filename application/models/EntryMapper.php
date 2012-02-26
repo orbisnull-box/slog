@@ -48,10 +48,11 @@ class Application_Model_EntryMapper
     {
         $data=$entry->toArray();
         $id = $entry->getId();
-        if ($id === null) {
+        if ($id === 0) {
             unset($data["id"]);
             return $this->getDbTable()->insert($data);
         } else {
+            unset($data["created"]);
             return $this->getDbTable()->update($data, array('id = ?' => $id));
         }
     }

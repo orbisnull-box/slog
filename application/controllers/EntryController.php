@@ -27,12 +27,13 @@ class EntryController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
                 $entry = new Application_Model_Entry($form->getValues());
+                $entry->setId(null);
+                $entry->setCreated(date("Y-m-d h:i:s"));
                 $entryMapper  = new Application_Model_EntryMapper();
                 $entryMapper->save($entry);
                 return $this->_helper->redirector('list');
             }
         }
-
         $this->view->form = $form;
     }
 
