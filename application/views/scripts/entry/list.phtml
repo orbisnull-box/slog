@@ -1,9 +1,19 @@
-
-Blog Entries: <br />
-<dl>
+<table class="table">
+    <tbody>
     <?php foreach ($this->entries as $entry): ?>
-    <dt><?php echo $this->escape($entry->title) ?></dt>
-    <dd><?php echo ($entry->body) ?></dd>
-    <dd><?php echo ($entry->created) ?></dd>
-    <?php endforeach ?>
-</dl>
+    <tr>
+        <td><h1><?php echo $this->escape($entry->title) ?></h1></td>
+    </tr>
+    <tr>
+        <td><?php echo ($entry->body) ?></td>
+    </tr>
+    <tr>
+        <td align="right">
+            <?php echo ($entry->created) ?>&nbsp;
+            <a href="<?php echo $this->url(array("action"=>"edit", "controller"=>"entry")) ?>/id/<?php echo $entry->id ?>"><i class="icon-edit"></i>Редактировать</a>
+        </td>
+    </tr>
+
+        <?php endforeach ?>
+    </tbody>
+</table>
