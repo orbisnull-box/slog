@@ -19,8 +19,26 @@ class EntryController extends Zend_Controller_Action
         $this->view->entries = $entry->fetchAll();
     }
 
+    public function addAction()
+    {
+        $request = $this->getRequest();
+        $form    = new Application_Form_Entry();
+
+        if ($this->getRequest()->isPost()) {
+            if ($form->isValid($request->getPost())) {
+                $entry = new Application_Model_Entry($form->getValues());
+                $entryMapper  = new Application_Model_EntryMapper();
+                $entryMapper->save($entry);
+                return $this->_helper->redirector('list');
+            }
+        }
+
+        $this->view->form = $form;
+    }
 
 }
+
+
 
 
 

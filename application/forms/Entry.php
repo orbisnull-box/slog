@@ -1,0 +1,50 @@
+<?php
+
+class Application_Form_Entry extends Zend_Form
+{
+
+    public function init()
+    {
+        // Set the method for the display form to POST
+        $this->setMethod('post');
+
+        // Add an email element
+        $this->addElement('text', 'title', array(
+            'label'      => 'Title:',
+            'required'   => true,
+            'filters'    => array('StringTrim'),
+            'validators' => array(
+                array('validator' => 'StringLength', 'options' => array(0, 20))
+            )
+        ));
+
+        // Add the comment element
+        $this->addElement('textarea', 'body', array(
+            'label'      => 'Body:',
+            'required'   => true,
+        ));
+
+        // Add a captcha
+        $this->addElement('captcha', 'captcha', array(
+            'label'      => 'Please enter the 5 letters displayed below:',
+            'required'   => true,
+            'captcha'    => array(
+                'captcha' => 'Figlet',
+                'wordLen' => 5,
+                'timeout' => 300
+            )
+        ));
+
+        // Add the submit button
+        $this->addElement('submit', 'submit', array(
+            'ignore'   => true,
+            'label'    => 'Sumbit',
+        ));
+
+        // And finally add some CSRF protection
+        $this->addElement('hash', 'csrf', array(
+            'ignore' => true,
+        ));
+    }
+}
+
