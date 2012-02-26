@@ -48,6 +48,7 @@ class EntryController extends Zend_Controller_Action
             return $this->_helper->redirector("error", "Error");
         } else {
             $this->view->entry = $entry;
+
         }
     }
 
@@ -72,6 +73,24 @@ class EntryController extends Zend_Controller_Action
         $this->view->form = $form;
     }
 
+    public function deleteAction()
+    {
+        if (null === $id = $this->getRequest()->getParam("id")) {
+            return $this->_helper->redirector("error", "Error");
+        }
+
+        $entry = new Application_Model_Entry();
+        $entryMapper = new Application_Model_EntryMapper();
+        if (false === $entryMapper->find($id, $entry)) {
+            return $this->_helper->redirector("error", "Error");
+        } else {
+            $entryMapper->delete($entry);
+            return $this->_helper->redirector('list');
+        }
+    }
+
 
 }
+
+
 
