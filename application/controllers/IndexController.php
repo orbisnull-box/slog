@@ -10,7 +10,9 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body
+        $params = array('action' => 'index', 'controller' => 'Entry', 'module' => 'default');
+        $url=$this->_helper->Url->url($params, null, true);
+        $this->_redirect($url);
     }
 
 

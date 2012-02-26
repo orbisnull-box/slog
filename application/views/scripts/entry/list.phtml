@@ -1,0 +1,9 @@
+
+Blog Entries: <br />
+<dl>
+    <?php foreach ($this->entries as $entry): ?>
+    <dt><?php echo $this->escape($entry->title) ?></dt>
+    <dd><?php echo ($entry->body) ?></dd>
+    <dd><?php echo ($entry->created) ?></dd>
+    <?php endforeach ?>
+</dl>
