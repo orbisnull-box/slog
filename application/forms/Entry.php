@@ -24,7 +24,7 @@ class Application_Form_Entry extends Zend_Form
             'required'   => true,
         ));
 
-        // Add a captcha
+        /*// Add a captcha
         $this->addElement('captcha', 'captcha', array(
             'label'      => 'Please enter the 5 letters displayed below:',
             'required'   => true,
@@ -33,7 +33,7 @@ class Application_Form_Entry extends Zend_Form
                 'wordLen' => 5,
                 'timeout' => 300
             )
-        ));
+        ));*/
 
         // Add the submit button
         $this->addElement('submit', 'submit', array(
