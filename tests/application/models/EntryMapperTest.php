@@ -15,6 +15,11 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
     protected $testData;
 
     /**
+     * @var Zend_Test_DbAdapter
+     */
+    protected $adapter;
+
+    /**
      * @var Application_Model_DbTable_Entry
      */
     protected $dbTable;
@@ -32,7 +37,7 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
 
         $this->dbTable= new Application_Model_DbTable_Entry();
 
-       /* $this->adapter   = new Zend_Test_DbAdapter();*/
+        $this->adapter   = new Zend_Test_DbAdapter();
 
         $this->mapper = new Application_Model_EntryMapper();
         $this->mock = $this->getMock("Application_Model_DbTable_Entry");
@@ -40,12 +45,6 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
 
     }
 
-    /*$this->mock->insert($this->testData);
-   $this->mock->update($this->testData, array('id = ?' => "1"));
-
-   $result = $this->mock->find(1);
-   $row = $result->current();
-   $this->assertEquals($this->testData, $row->toArray());*/
 
     static public function getTestRowSet($id)
     {
@@ -66,6 +65,7 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
                 return null;
         }
     }
+
 
     public function testDbTable()
     {
@@ -119,7 +119,7 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->mock->expects($this->any())
             ->method("find")
-            ->will($this->returnCallback("getTestRowSet"));
+            ->will($this->returnCallback("Application_Model_EntryMapperTest::getTestRowSet"));
 
 
         //test insert
@@ -152,8 +152,32 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
         , new Application_Model_Entry($testData2)
         );
 
-
         $this->assertEquals($entris, $this->mapper->fetchAll());
+    }
+
+    public function testDelete()
+    {
+        $this->mock->expects($this->any())
+            ->method("find")
+            ->will($this->returnCallback("Application_Model_EntryMapperTest::getTestRowSet"));
+
+        $where = $this->adapter->quoteInto("id = ?", 1);
+        $this->mock->expects($this->any())
+            ->method("delete")
+            ->with($where)
+            ->will($this->returnValue(true));
+        $this->mock->expects($this->any())
+            ->method("getAdapter")
+            ->will($this->returnValue($this->adapter));
+
+        $this->mapper->setDbTable($this->mock);
+
+        $entry = new Application_Model_Entry($this->testData);
+
+        $result = $this->mapper->delete($entry);
+
+        $this->assertTrue($result);
+
     }
 
 

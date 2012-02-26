@@ -71,6 +71,12 @@ class Application_Model_EntryMapper
         return $entries;
     }
 
+    public function delete(Application_Model_Entry $entry)
+    {
+        $where = $this->getDbTable()->getAdapter()->quoteInto("id = ?", $entry->id);
+        return $this->getDbTable()->delete($where);
+    }
+
 
 }
 
