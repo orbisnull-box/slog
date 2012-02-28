@@ -25,12 +25,11 @@ class Application_Model_Entry
         return $this;
     }
 
-
     public function __set($name, $value)
     {
         $method = "set" . ucfirst($name);
         if (!method_exists($this, $method)) {
-            throw new Exception("Invalid Entry set class property");
+            throw new Exception("Invalid Entry set class property: \"$name\"");
         }
         $this->$method($value);
     }
@@ -39,7 +38,7 @@ class Application_Model_Entry
     {
         $method = "get" . ucfirst($name);
         if (!method_exists($this, $method)) {
-            throw new Exception("Invalid Entry get class property");
+            throw new Exception("Invalid Entry get class property: \"$name\"");
         }
         return $this->$method();
     }
