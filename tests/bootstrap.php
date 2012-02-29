@@ -15,4 +15,8 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 require_once 'Zend/Loader/Autoloader.php';
-Zend_Loader_Autoloader::getInstance();
+//Zend_Loader_Autoloader::getInstance();
+
+//Регистрируем библиотеки
+$autoLoader = Zend_Loader_Autoloader::getInstance();
+$autoLoader->registerNamespace('OrbisLib_');
