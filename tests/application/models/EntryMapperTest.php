@@ -40,7 +40,6 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
         $this->mapper = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
         $this->mock = $this->getMock("Application_Model_DbTable_Entry");
 
-
     }
 
 
