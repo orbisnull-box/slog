@@ -25,6 +25,12 @@ class OrbisLib_DataMapperFactory
         return self::$_instance;
     }
 
+    /**
+     *
+     * @param string $mapperClass
+     * @param Zend_Db_Table_Abstract|string $dbTable
+     * @return boolean 
+     */
     public static function setDbTable($mapperClass, $dbTable)
     {
         $instance = self::getInstance();
@@ -42,6 +48,11 @@ class OrbisLib_DataMapperFactory
         }
     }
 
+    /**
+     *
+     * @param string $mapperClass
+     * @return Zend_Db_Table_Abstract 
+     */
     public static function getDbTable($mapperClass)
     {
         $instance = self::getInstance();
@@ -52,6 +63,11 @@ class OrbisLib_DataMapperFactory
         }
     }
 
+    /**
+     *
+     * @param string $mapperClass
+     * @return boolean 
+     */
     public static function deleteDbTable($mapperClass)
     {
         $instance = self::getInstance();
@@ -63,6 +79,11 @@ class OrbisLib_DataMapperFactory
         }
     }
 
+    /**
+     *
+     * @param string $mapperClass
+     * @return object
+     */
     public static function create($mapperClass)
     {
         $instance = self::getInstance();

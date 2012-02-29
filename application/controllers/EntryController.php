@@ -15,8 +15,8 @@ class EntryController extends Zend_Controller_Action
 
     public function listAction()
     {
-        $entry = new Application_Model_EntryMapper();
-        $this->view->entries = $entry->fetchAll();
+        $entryMapper = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
+        $this->view->entries = $entryMapper->fetchAll();
     }
 
     public function addAction()
@@ -29,7 +29,7 @@ class EntryController extends Zend_Controller_Action
                 $entry = new Application_Model_Entry($form->getValues());
                 $entry->setId(null);
                 $entry->setCreated(date("Y-m-d h:i:s"));
-                $entryMapper  = new Application_Model_EntryMapper();
+                $entryMapper  = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
                 $entryMapper->save($entry);
                 return $this->_helper->redirector('list');
             }
@@ -44,7 +44,7 @@ class EntryController extends Zend_Controller_Action
         }
 
         $entry = new Application_Model_Entry();
-        $entryMapper = new Application_Model_EntryMapper();
+        $entryMapper = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
         if (false === $entryMapper->find($id, $entry)) {
             return $this->_helper->redirector("error", "Error");
         } else {
@@ -58,7 +58,7 @@ class EntryController extends Zend_Controller_Action
         $request = $this->getRequest();
         $form    = new Application_Form_Entry();
         $entry = new Application_Model_Entry();
-        $entryMapper  = new Application_Model_EntryMapper();
+        $entryMapper  = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
         if ($request->isPost()) {
             if ($form->isValid($request->getPost()) and $form->getValue("id")!==null) {
                 $entry->setOptions($form->getValues());
@@ -81,7 +81,7 @@ class EntryController extends Zend_Controller_Action
         }
 
         $entry = new Application_Model_Entry();
-        $entryMapper = new Application_Model_EntryMapper();
+        $entryMapper = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
         if (false === $entryMapper->find($id, $entry)) {
             return $this->_helper->redirector("error", "Error");
         } else {

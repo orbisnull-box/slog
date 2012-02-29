@@ -27,8 +27,6 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        //$this->_application = new Zend_Application(APPLICATION_ENV, APPLICATION_PATH . '/configs/application.ini');
-
         $this->testData = array("id" => "1",
             "title" => "First Entry",
             "body" => "Long text",
@@ -39,7 +37,7 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
 
         $this->adapter   = new Zend_Test_DbAdapter();
 
-        $this->mapper = new Application_Model_EntryMapper();
+        $this->mapper = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
         $this->mock = $this->getMock("Application_Model_DbTable_Entry");
 
 
