@@ -34,7 +34,11 @@
         <modelFile modelName="EntryMapper"/>
         <dbTableDirectory>
           <dbTableFile dbTableName="Entry"/>
+          <dbTableFile dbTableName="Comment"/>
         </dbTableDirectory>
+        <modelFile modelName="Comment"/>
+        <modelFile modelName="CommentMapper"/>
+        <modelFile modelName="DataMapperFactory"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <viewsDirectory>

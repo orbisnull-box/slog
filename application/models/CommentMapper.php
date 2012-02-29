@@ -1,9 +1,9 @@
 <?php
 
-class Application_Model_EntryMapper
+class Application_Model_CommentMapper
 {
     /**
-     * @var Application_Model_DbTable_Entry
+     * @var Application_Model_DbTable_Comment
      */
     protected $_dbTable;
 
@@ -20,7 +20,7 @@ class Application_Model_EntryMapper
             $dbTable = new $dbTable();
         }
         if (!$dbTable instanceof Zend_Db_Table_Abstract) {
-            throw new UnexpectedValueException("Invalid table data gateway provided");
+            throw new Exception("Invalid table data gateway provided");
         }
         $this->_dbTable = $dbTable;
 
@@ -30,31 +30,31 @@ class Application_Model_EntryMapper
     public function getDbTable()
     {
         if (null === $this->_dbTable) {
-            $this->setDbTable("Application_Model_DbTable_Entry");
+            $this->setDbTable("Application_Model_DbTable_Comment");
         }
         return $this->_dbTable;
     }
 
 
-    public function find($id,  Application_Model_Entry $entry)
+    public function find($id, Application_Model_Comment $comment)
     {
         $result = $this->getDbTable()->find($id);
         if (count($result) === 0) {
             return false;
         } else {
             $row = $result->current();
-            $entry->setId($row->id)
-                ->setTitle($row->title)
+            $comment->setId($row->id)
+                ->setEntry($row->entry)
                 ->setBody($row->body)
                 ->setCreated($row->created);
             return true;
         }
     }
 
-    public function save(Application_Model_Entry $entry)
+    public function save(Application_Model_Comment $comment)
     {
-        $data=$entry->toArray();
-        $id = $entry->getId();
+        $data = $comment->toArray();
+        $id = $comment->getId();
         if ($id === 0) {
             unset($data["id"]);
             return $this->getDbTable()->insert($data);
@@ -67,19 +67,19 @@ class Application_Model_EntryMapper
     public function fetchAll()
     {
         $resultSet = $this->getDbTable()->fetchAll();
-        $entries   = array();
+        $comments = array();
         foreach ($resultSet as $row) {
-            $entry = new Application_Model_Entry();
-            $entry->setId($row->id)
-                ->setTitle($row->title)
+            $comment = new Application_Model_Comment();
+            $comment->setId($row->id)
+                ->setEntry($row->entry)
                 ->setBody($row->body)
                 ->setCreated($row->created);
-            $entries[] = $entry;
+            $comments[] = $comment;
         }
-        return $entries;
+        return $comments;
     }
 
-    public function delete(Application_Model_Entry $entry)
+    public function delete(Application_Model_Comment $entry)
     {
         $where = $this->getDbTable()->getAdapter()->quoteInto("id = ?", $entry->id);
         return $this->getDbTable()->delete($where);
