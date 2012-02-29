@@ -16,6 +16,7 @@ class EntryController extends Zend_Controller_Action
     public function listAction()
     {
         $entryMapper = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
+        var_dump($entryMapper);
         $this->view->entries = $entryMapper->fetchAll();
     }
 
@@ -29,7 +30,7 @@ class EntryController extends Zend_Controller_Action
                 $entry = new Application_Model_Entry($form->getValues());
                 $entry->setId(null);
                 $entry->setCreated(date("Y-m-d h:i:s"));
-                $entryMapper  = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
+                $entryMapper = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
                 $entryMapper->save($entry);
                 return $this->_helper->redirector('list');
             }

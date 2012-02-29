@@ -7,6 +7,13 @@ class Application_Model_EntryMapper
      */
     protected $_dbTable;
 
+    public function __construct($dbTable=null)
+    {
+        if (!is_null($dbTable)) {
+            $this->setDbTable($dbTable);
+        }
+    }
+
     public function setDbTable($dbTable)
     {
         if (is_string($dbTable)) {

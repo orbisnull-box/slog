@@ -87,10 +87,10 @@ class OrbisLib_DataMapperFactory
     public static function create($mapperClass)
     {
         $instance = self::getInstance();
-        try {
-            Zend_Loader::loadClass($mapperClass);
+        $autoLoader = Zend_Loader_Autoloader::getInstance();
+        if (class_exists($mapperClass) or false!==$autoLoader->autoload($mapperClass)) {
             $mapper = new $mapperClass($instance->getDbTable($mapperClass));
-        } catch (Exception $e) {
+        } else {
             $mapper = null;
         }
         return $mapper;

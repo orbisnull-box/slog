@@ -1,7 +1,7 @@
 <?php
 class OrbisLib_DataMapperFactoryTest extends PHPUnit_Framework_TestCase
 {
-    protected  $testMapper;
+    protected $testMapper;
     protected $dbTable;
     protected $mock;
 
@@ -10,6 +10,7 @@ class OrbisLib_DataMapperFactoryTest extends PHPUnit_Framework_TestCase
         $this->testMapper = new Application_Model_EntryMapper();
         $this->dbTable = new Application_Model_DbTable_Entry();
         $this->mock = $this->getMock("Application_Model_DbTable_Entry");
+        OrbisLib_DataMapperFactory::deleteDbTable("Application_Model_EntryMapper");
     }
 
     public function testCreate()
