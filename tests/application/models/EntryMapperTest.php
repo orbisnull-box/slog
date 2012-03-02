@@ -1,7 +1,12 @@
 <?php
+require_once("SlogSetUpMocks.php");
 
 class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
 {
+    protected $dbTableClass = "Application_Model_DbTable_Entry";
+
+    protected $mapperClass = "Application_Model_EntryMapper";
+
     /**
      * @var Application_Model_EntryMapper
      */
@@ -14,15 +19,8 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
 
     protected $testData;
 
-    /**
-     * @var Zend_Test_DbAdapter
-     */
-    protected $adapter;
 
-    /**
-     * @var Application_Model_DbTable_Entry
-     */
-    protected $dbTable;
+    protected $_setUpMocksObj;
 
 
     protected function setUp()
@@ -33,20 +31,21 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
             "created" => "2012-02-20 15:00:00",
         );
 
-        $this->dbTable = new Application_Model_DbTable_Entry();
+        $this->_setUpMocksObj = new SlogSetUpMocks($this);
+        $this->_setUpMocksObj->run();
+        $this->mock = $this->_setUpMocksObj->getMock($this->mapperClass);
 
-        $this->adapter = new Zend_Test_DbAdapter();
-
-        $this->mock = $this->getMock("Application_Model_DbTable_Entry");
-
-        $this->setUpMock();
-
-        OrbisLib_DataMapperFactory::setDbTable("Application_Model_EntryMapper", $this->mock);
-
-        $this->mapper = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
+        $this->mapper = OrbisLib_DataMapperFactory::create($this->mapperClass);
     }
 
-    public function setUpMock()
+    public function tearDown()
+    {
+        unset($this->mapper);
+        unset($this->mock);
+        unset($this->_setUpMocksObj);
+    }
+
+    /*public function setUpMock()
     {
         $rowsetMap = array(
             array(0, new Zend_Db_Table_Rowset(array("table" => $this->mock, "data" => array()))),
@@ -90,14 +89,14 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
         $this->mock->expects($this->any())
             ->method("fetchAll")
             ->will($this->returnValue($testRowset));
-    }
+    }*/
 
     public function testDbTable()
     {
         $this->assertEquals($this->mock, $this->mapper->getDbTable(), "Error in Factory load dbTable");
 
-        $this->mapper->setDbTable((string) get_class($this->dbTable));
-        $this->assertEquals($this->dbTable, $this->mapper->getDbTable(), "Error in string setDbtable");
+        $this->mapper->setDbTable($this->dbTableClass);
+        $this->assertEquals(new $this->dbTableClass, $this->mapper->getDbTable(), "Error in string setDbtable");
 
         $this->mapper->setDbTable($this->mock);
         $this->assertEquals($this->mock, $this->mapper->getDbTable(), "Error in obj setDbtable");
@@ -161,13 +160,9 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-
         $entry = new Application_Model_Entry($this->testData);
-
         $result = $this->mapper->delete($entry);
-
         $this->assertTrue($result);
-
     }
 
 

@@ -7,7 +7,7 @@ class OrbisLib_DataMapperFactory
 {
     protected static $_instance;
 
-    protected $_dbTableRegistry;
+    protected $_dbTableRegistry=array();
 
     private function __construct() { /* ... */ }
 
