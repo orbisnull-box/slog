@@ -13,9 +13,10 @@ class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     {
         $params = array('action' => 'index', 'controller' => 'Index', 'module' => 'default');
         $this->dispatch($this->url($this->urlizeOptions($params)));
-        $params = array('action' => 'index', 'controller' => 'Entry', 'module' => 'default');
-        $this->assertRedirectTo($this->url($this->urlizeOptions($params)));
+        $params2 = array('action' => 'index', 'controller' => 'Entry', 'module' => 'default');
+        $headers   = $this->getResponse()->getHeaders();
 
+        $this->assertEquals($this->url($this->urlizeOptions($params2)), $headers[0]["value"]);
     }
 
 

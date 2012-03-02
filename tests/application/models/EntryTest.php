@@ -25,7 +25,7 @@ class Application_Model_EntryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException UnexpectedValueException
      */
     public function testSetBadAttributes()
     {
@@ -33,7 +33,7 @@ class Application_Model_EntryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException UnexpectedValueException
      */
     public function testGetBadAttributes()
     {

@@ -79,7 +79,7 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException UnexpectedValueException
      */
     public function testDbTableError()
     {

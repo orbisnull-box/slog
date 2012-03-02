@@ -38,7 +38,10 @@ class EntryControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertModule($urlParams['module']);
         $this->assertController($urlParams['controller']);
         $this->assertAction($urlParams['action']);
-        $this->assertQueryContentContains('html', "First Entry");
+
+        $domHtml = new Zend_Dom_Query($this->response->outputBody());
+        $text = $domHtml->queryXpath('//h1/text()')->current()->nodeValue;
+        $this->assertEquals("First Entry", $text);
     }
 
     public function testAddAction()
