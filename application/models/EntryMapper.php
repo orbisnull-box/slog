@@ -20,7 +20,7 @@ class Application_Model_EntryMapper
             $dbTable = new $dbTable();
         }
         if (!$dbTable instanceof Zend_Db_Table_Abstract) {
-            throw new Exception("Invalid table data gateway provided");
+            throw new UnexpectedValueException("Invalid table data gateway provided");
         }
         $this->_dbTable = $dbTable;
 
