@@ -45,52 +45,6 @@ class Application_Model_EntryMapperTest extends PHPUnit_Framework_TestCase
         unset($this->_setUpMocksObj);
     }
 
-    /*public function setUpMock()
-    {
-        $rowsetMap = array(
-            array(0, new Zend_Db_Table_Rowset(array("table" => $this->mock, "data" => array()))),
-            array(1, new Zend_Db_Table_Rowset(array("table" => $this->mock, "data" => array($this->testData)))),
-        );
-
-        $this->mock->expects($this->any())
-            ->method("getAdapter")
-            ->will($this->returnValue($this->adapter));
-        $this->mock->expects($this->any())
-            ->method("find")
-            ->will($this->returnValueMap($rowsetMap));
-
-        $testDataNew=$this->testData;
-        unset($testDataNew["id"]);
-        $testDataNew["created"]=date("Y-m-d h:i:s");
-
-        $testDataUpdate=$this->testData;
-        unset($testDataUpdate["created"]);
-
-        $this->mock->expects($this->any())
-            ->method("insert")
-            ->with($testDataNew)
-            ->will($this->returnValue(true));
-        $this->mock->expects($this->any())
-            ->method("update")
-            ->with($testDataUpdate, array('id = ?' => "1"))
-            ->will($this->returnValue(true));
-
-        $this->mock->expects($this->any())
-            ->method("delete")
-            ->with($this->adapter->quoteInto("id = ?", 1))
-            ->will($this->returnValue(true));
-
-        $testData2 = $this->testData;
-        $testData2["id"] = 3;
-        $testData2["title"] = "33 korovi";
-        $testRowset = new Zend_Db_Table_Rowset(array("table" => new Application_Model_DbTable_Entry(),
-            "data" => array($this->testData, $testData2)));
-
-        $this->mock->expects($this->any())
-            ->method("fetchAll")
-            ->will($this->returnValue($testRowset));
-    }*/
-
     public function testDbTable()
     {
         $this->assertEquals($this->mock, $this->mapper->getDbTable(), "Error in Factory load dbTable");

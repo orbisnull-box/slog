@@ -1,6 +1,6 @@
 <?php
 
-class EntryControllerTestNot extends Zend_Test_PHPUnit_ControllerTestCase
+class EntryControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 {
 
     public function setUp()
