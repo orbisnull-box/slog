@@ -1,7 +1,12 @@
 <?php
+require_once("SlogSetUpMocks.php");
 
 class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 {
+    protected $dbTableClass = "Application_Model_DbTable_Comment";
+
+    protected $mapperClass = "Application_Model_CommentMapper";
+
     /**
      * @var Application_Model_CommentMapper
      */
@@ -14,15 +19,7 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 
     protected $testData;
 
-    /**
-     * @var Zend_Test_DbAdapter
-     */
-    protected $adapter;
-
-    /**
-     * @var Application_Model_DbTable_Comment
-     */
-    protected $dbTable;
+    protected $_setUpMocksObj;
 
 
     protected function setUp()
@@ -31,37 +28,6 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
             'The CommentMapper is not available.'
         );*/
 
-        $this->comment = new Application_Model_Comment();
-
-        $entryData = array("id" => "1",
-            "title" => "First Entry",
-            "body" => "Long text",
-            "created" => "2012-01-20 11:00:00",
-        );
-
-        $entry = new Application_Model_comment($entryData);
-
-        $this->testData = array("id" => "1",
-            "entry" => $entry,
-            "body" => "Long text",
-            "created" => "2012-02-20 15:00:00",
-        );
-
-        $this->dbTable= new Application_Model_DbTable_Comment();
-
-        $this->adapter   = new Zend_Test_DbAdapter();
-
-        $this->mock = $this->getMock("Application_Model_DbTable_Comment");
-
-        OrbisLib_DataMapperFactory::setDbTable("Application_Model_CommentMapper", $this->mock);
-        OrbisLib_DataMapperFactory::create("Application_Model_CommentMapper");
-
-        $this->mapper = new Application_Model_CommentMapper();
-    }
-
-
-    static public function getTestRowSet($id)
-    {
         $entryData = array("id" => "1",
             "title" => "First Entry",
             "body" => "Long text",
@@ -70,38 +36,40 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 
         $entry = new Application_Model_Entry($entryData);
 
-        $testData = array("id" => "1",
+        $this->testData = array("id" => "1",
             "entry" => $entry,
             "body" => "Long text",
             "created" => "2012-02-20 15:00:00",
         );
 
-        switch ($id) {
-            case 1:
-                return new Zend_Db_Table_Rowset(array("table" => new Application_Model_DbTable_Entry(), "data" => array($testData)));
-                break;
-            case 0:
-                return new Zend_Db_Table_Rowset(array("table" => new Application_Model_DbTable_Entry(), "data" => array()));
-                break;
-            default:
-                return null;
-        }
+        $this->_setUpMocksObj = new SlogSetUpMocks($this);
+        $this->_setUpMocksObj->run();
+        $this->mock = $this->_setUpMocksObj->getMock($this->mapperClass);
+
+        $this->mapper = OrbisLib_DataMapperFactory::create($this->mapperClass);
+    }
+
+    public function tearDown()
+    {
+        unset($this->mapper);
+        unset($this->mock);
+        unset($this->_setUpMocksObj);
     }
 
 
     public function testDbTable()
     {
-        $this->assertEquals($this->dbTable, $this->mapper->getDbTable());
+        $this->assertEquals($this->mock, $this->mapper->getDbTable(), "Error in Factory load dbTable");
+
+        $this->mapper->setDbTable($this->dbTableClass);
+        $this->assertEquals(new $this->dbTableClass, $this->mapper->getDbTable(), "Error in string setDbtable");
 
         $this->mapper->setDbTable($this->mock);
-        $this->assertEquals($this->mock, $this->mapper->getDbTable());
-
-        $this->mapper->setDbTable((string) get_class($this->dbTable));
-        $this->assertEquals($this->dbTable, $this->mapper->getDbTable());
+        $this->assertEquals($this->mock, $this->mapper->getDbTable(), "Error in obj setDbtable");
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException UnexpectedValueException
      */
     public function testDbTableError()
     {
@@ -110,24 +78,18 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 
     public function testFind()
     {
-        $this->mock->expects($this->any())
-            ->method("find")
-            ->will($this->returnCallback("Application_Model_CommentMapperTest::getTestRowSet"));
+        $comment = new Application_Model_Comment();
+        $result = $this->mapper->find(1, $comment);
+        $this->assertTrue($result, "Not found entry (id=1)");
+        $this->assertEquals(new Application_Model_Comment($this->testData), $comment, "Found other entry");
 
-        $this->mapper->setDbTable($this->mock);
-        $entry = new Application_Model_Comment();
-        $result = $this->mapper->find(1, $entry);
-        $this->assertTrue($result);
-        $this->assertEquals(new Application_Model_Comment($this->testData), $entry);
-
-        $entry = new Application_Model_Comment();
-        $result = $this->mapper->find(0, $entry);
-        $this->assertFalse($result);
+        $comment = new Application_Model_Comment();
+        $result = $this->mapper->find(0, $comment);
+        $this->assertFalse($result, "Found missing entry");
     }
 
     public function testSave()
     {
-        $this->mapper->setDbTable($this->mock);
 
         $testDataNew=$this->testData;
         unset($testDataNew["id"]);
@@ -135,22 +97,6 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 
         $testDataUpdate=$this->testData;
         unset($testDataUpdate["created"]);
-
-
-        $this->mock->expects($this->any())
-            ->method("insert")
-            ->with($testDataNew)
-            ->will($this->returnValue(true));
-
-        $this->mock->expects($this->any())
-            ->method("update")
-            ->with($testDataUpdate, array('id = ?' => "1"))
-            ->will($this->returnValue(true));
-
-        $this->mock->expects($this->any())
-            ->method("find")
-            ->will($this->returnCallback("Application_Model_CommentMapperTest::getTestRowSet"));
-
 
         //test insert
         $testDataNew["id"]=0;
@@ -171,16 +117,9 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
         $testData2 = $this->testData;
         $testData2["id"] = 3;
         $testData2["title"] = "33 korovi";
-        $testRowset = new Zend_Db_Table_Rowset(array("table" => new Application_Model_DbTable_Entry(),
-            "data" => array($this->testData, $testData2)));
-
-        $this->mock->expects($this->any())
-            ->method("fetchAll")
-            ->will($this->returnValue($testRowset));
-        $this->mapper->setDbTable($this->mock);
 
         $entris = array(new Application_Model_Comment($this->testData)
-        , new Application_Model_Entry($testData2)
+        , new Application_Model_Comment($testData2)
         );
 
         $this->assertEquals($entris, $this->mapper->fetchAll());
@@ -188,27 +127,9 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $this->mock->expects($this->any())
-            ->method("find")
-            ->will($this->returnCallback("Application_Model_EntryMapperTest::getTestRowSet"));
-
-        $where = $this->adapter->quoteInto("id = ?", 1);
-        $this->mock->expects($this->any())
-            ->method("delete")
-            ->with($where)
-            ->will($this->returnValue(true));
-        $this->mock->expects($this->any())
-            ->method("getAdapter")
-            ->will($this->returnValue($this->adapter));
-
-        $this->mapper->setDbTable($this->mock);
-
         $entry = new Application_Model_Comment($this->testData);
-
         $result = $this->mapper->delete($entry);
-
         $this->assertTrue($result);
-
     }
 
 

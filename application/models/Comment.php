@@ -32,7 +32,7 @@ class Application_Model_Comment
     {
         $method = "set" . ucfirst($name);
         if (!method_exists($this, $method)) {
-            throw new Exception("Invalid Comment set class property: \"$name\"");
+            throw new UnexpectedValueException("Invalid Comment set class property: \"$name\"");
         }
         $this->$method($value);
     }
@@ -41,7 +41,7 @@ class Application_Model_Comment
     {
         $method = "get" . ucfirst($name);
         if (!method_exists($this, $method)) {
-            throw new Exception("Invalid Comment get class property: \"$name\"");
+            throw new UnexpectedValueException("Invalid Comment get class property: \"$name\"");
         }
         return $this->$method();
     }
@@ -117,6 +117,11 @@ class Application_Model_Comment
         foreach ($vars as $key=>$value) {
             $name = substr($key,1);
             $method = "get" . ucfirst($name);
+
+            if(method_exists($this, $method."Id")){
+                $method=$method."Id";
+            }
+
             if (method_exists($this, $method))  {
                 $data[$name] = $this->$method();
             }

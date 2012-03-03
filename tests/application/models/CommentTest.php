@@ -37,7 +37,7 @@ class Application_Model_CommentTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException UnexpectedValueException
      */
     public function testSetBadAttributes()
     {
@@ -45,7 +45,7 @@ class Application_Model_CommentTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException UnexpectedValueException
      */
     public function testGetBadAttributes()
     {
@@ -75,20 +75,20 @@ class Application_Model_CommentTest extends PHPUnit_Framework_TestCase
 
     public function testSetOptionsOnCreate()
     {
-        $entry = new Application_Model_Comment($this->testData);
+        $comment = new Application_Model_Comment($this->testData);
 
-        $this->assertEquals($this->testData["id"], $entry->id);
-        $this->assertEquals($this->testData["entry"], $entry->entry);
-        $this->assertEquals($this->testData["body"], $entry->body);
-        $this->assertEquals($this->testData["created"], $entry->created);
+        $this->assertEquals($this->testData["id"], $comment->id);
+        $this->assertEquals($this->testData["entry"], $comment->entry);
+        $this->assertEquals($this->testData["body"], $comment->body);
+        $this->assertEquals($this->testData["created"], $comment->created);
     }
 
     public function testToArray()
     {
-        $this->comment->setOptions($this->testData);
+        $comment = new Application_Model_Comment($this->testData);
         $testData=$this->testData;
-        $testData["entry"]=$testData["entry"]->id;
-        $this->assertEquals($this->testData, $this->comment->toArray());
+        $testData["entry"] =  $testData["entry"]->id;
+        $this->assertEquals($testData, $comment->toArray());
     }
 
 
