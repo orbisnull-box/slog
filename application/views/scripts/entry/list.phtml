@@ -3,7 +3,7 @@
     <tbody>
     <?php foreach ($this->entries as $entry): ?>
     <tr>
-        <td><h1><?php echo $this->escape($entry->title) ?></h1></td>
+        <td><h1><a href="<?php echo $this->url(array("action"=>"show", "controller"=>"entry")) ?>/id/<?php echo $entry->id ?>"><?php echo $this->escape($entry->title) ?></a></h1></td>
     </tr>
     <tr>
         <td><?php echo ($entry->body) ?></td>

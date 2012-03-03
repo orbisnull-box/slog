@@ -24,10 +24,6 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /*$this->markTestSkipped(
-            'The CommentMapper is not available.'
-        );*/
-
         $entryData = array("id" => "1",
             "title" => "First Entry",
             "body" => "Long text",
@@ -90,7 +86,6 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-
         $testDataNew=$this->testData;
         unset($testDataNew["id"]);
         $testDataNew["created"]=date("Y-m-d h:i:s");
@@ -100,14 +95,14 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 
         //test insert
         $testDataNew["id"]=0;
-        $entry = new Application_Model_Comment($testDataNew);
-        $result = $this->mapper->save($entry);
+        $comment = new Application_Model_Comment($testDataNew);
+        $result = $this->mapper->save($comment);
         $this->assertTrue($result);
 
         //test update
         $testData=$this->testData;
-        $entry = new Application_Model_Comment($testData);
-        $result = $this->mapper->save($entry);
+        $comment = new Application_Model_Comment($testData);
+        $result = $this->mapper->save($comment);
         $this->assertTrue($result);
 
     }
@@ -115,7 +110,6 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
     public function testFetchAll()
     {
         $testData2 = $this->testData;
-        $testData2["id"] = 3;
         $testData2["title"] = "33 korovi";
 
         $entris = array(new Application_Model_Comment($this->testData)
@@ -123,6 +117,25 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($entris, $this->mapper->fetchAll());
+    }
+
+    public function testFetchAllToEntry()
+    {
+        $entryData = array("id" => "1",
+            "title" => "First Entry",
+            "body" => "Long text",
+            "created" => "2012-01-20 11:00:00",
+        );
+
+        $testData2 = $this->testData;
+        $testData2["title"] = "33 korovi";
+
+        $comments = array(new Application_Model_Comment($this->testData), new Application_Model_Comment($testData2));
+
+        $entry = new Application_Model_Entry($entryData);
+
+        $this->assertEquals($comments, $this->mapper->fetchAllToEntry(1));
+        $this->assertEquals($comments, $this->mapper->fetchAllToEntry($entry));
     }
 
     public function testDelete()

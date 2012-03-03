@@ -92,7 +92,6 @@ class SlogSetUpMocks extends OrbisLib_SetUpMocks
         $testDataUpdate["entry"]=$testDataUpdate["entry"]->id;
 
         $testData2 = $testData;
-        $testData2["id"] = 3;
         $testData2["title"] = "33 korovi";
 
         $rowsetMap = array(

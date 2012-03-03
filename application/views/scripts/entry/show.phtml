@@ -3,3 +3,14 @@
     <dd><?php echo ($this->entry->body) ?></dd>
     <dd><?php echo ($this->entry->created) ?></dd>
 </dl>
+
+<div>
+<h2>Комментарии:</h2>
+<?php foreach ($this->comments as $comment): ?>
+<dl>
+    <dd><?php echo ($comment->body) ?></dd>
+    <dd><?php echo ($comment->created) ?></dd>
+</dl>
+</div>
+
+<?php endforeach ?>

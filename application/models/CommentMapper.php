@@ -64,9 +64,9 @@ class Application_Model_CommentMapper
         }
     }
 
-    public function fetchAll()
+    public function fetchAll($where = null)
     {
-        $resultSet = $this->getDbTable()->fetchAll();
+        $resultSet = $this->getDbTable()->fetchAll($where);
         $comments = array();
         foreach ($resultSet as $row) {
             $comment = new Application_Model_Comment();
@@ -77,6 +77,19 @@ class Application_Model_CommentMapper
             $comments[] = $comment;
         }
         return $comments;
+    }
+
+    /**
+     * @param Application_Model_Entry|string $entry
+     * @return array
+     */
+    public function fetchAllToEntry($entry)
+    {
+        if($entry instanceof Application_Model_Entry) {
+            $entry = $entry->id;
+        }
+        $where = $this->getDbTable()->getAdapter()->quoteInto("entry = ?", $entry);
+        return $this->fetchAll($where);
     }
 
     public function delete(Application_Model_Comment $entry)

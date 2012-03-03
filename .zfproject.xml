@@ -20,6 +20,9 @@
           <actionMethod actionName="edit"/>
           <actionMethod actionName="delete"/>
         </controllerFile>
+        <controllerFile controllerName="Comment">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Entry"/>
@@ -67,6 +70,9 @@
           <viewControllerScriptsDirectory forControllerName="Entry">
             <viewScriptFile forActionName="delete"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Comment">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -111,6 +117,9 @@
             <testApplicationActionMethod forActionName="show"/>
             <testApplicationActionMethod forActionName="edit"/>
             <testApplicationActionMethod forActionName="delete"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Comment">
+            <testApplicationActionMethod forActionName="index"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
