@@ -16,7 +16,6 @@ class EntryController extends Zend_Controller_Action
     public function listAction()
     {
         $entryMapper = OrbisLib_DataMapperFactory::create("Application_Model_EntryMapper");
-        var_dump($entryMapper);
         $this->view->entries = $entryMapper->fetchAll();
     }
 
