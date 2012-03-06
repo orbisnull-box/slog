@@ -19,6 +19,9 @@ class Application_Model_CommentMapperTest extends PHPUnit_Framework_TestCase
 
     protected $testData;
 
+    /**
+     * @var OrbisLib_SetUpMocks
+     */
     protected $_setUpMocksObj;
 
 

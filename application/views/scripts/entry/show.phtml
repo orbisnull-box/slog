@@ -6,7 +6,7 @@
 
 <div>
 <h2>Комментарии:</h2>
-<?php foreach ($this->comments as $comment): ?>
+<?php foreach ($this->entry->comments as $comment): ?>
 <dl>
     <dd><?php echo ($comment->body) ?></dd>
     <dd><?php echo ($comment->created) ?></dd>

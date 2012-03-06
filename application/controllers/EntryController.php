@@ -48,10 +48,7 @@ class EntryController extends Zend_Controller_Action
         if (false === $entryMapper->find($id, $entry)) {
             return $this->_helper->redirector("error", "Error");
         } else {
-            $commentMapper = OrbisLib_DataMapperFactory::create("Application_Model_CommentMapper");
-            $comments = $commentMapper->fetchAllToEntry($entry);
             $this->view->entry = $entry;
-            $this->view->comments = $comments;
         }
     }
 

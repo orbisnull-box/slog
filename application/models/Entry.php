@@ -101,5 +101,16 @@ class Application_Model_Entry
         return $data;
     }
 
+    /**
+     * @todo add cache for commets
+     * @return array array of Application_Model_Comment objects
+     *
+     */
+    public function getComments()
+    {
+        $commentMapper = OrbisLib_DataMapperFactory::create("Application_Model_CommentMapper");
+        return $commentMapper->fetchAllToEntry($this);
+    }
+
 }
 
