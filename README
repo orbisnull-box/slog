@@ -7,3 +7,7 @@ It's base on Zend Framework and Twitter Bootstrap.
 
 http://framework.zend.com/
 http://twitter.github.com/bootstrap
+
+Install Notes
+Use scripts/load.mysql.php to create database structure
+Use scripts/load.mysql.php -w create database structure and load default data
