@@ -8,28 +8,31 @@ class Application_Form_Entry extends Zend_Form
         // Set the method for the display form to POST
         $this->setMethod('post');
 
-        // Add an email element
+        // Add an id element
         $this->addElement('hidden', 'id', array(
             'required'   => false,
-            'filters'    => array(),
+            'filters'    => array('Zend_Filter_Alnum'),
             'validators' => array(
                 array()
             )
         ));
 
-        // Add an email element
+        // Add an title element
         $this->addElement('text', 'title', array(
             'label'      => 'Title:',
             'required'   => true,
-            'filters'    => array('StringTrim'),
+            'filters'    => array('StringTrim', 'StripTags'),
             'validators' => array(
                 array('validator' => 'StringLength', 'options' => array(0, 20))
             )
         ));
 
-        // Add the comment element
+        // Add the body element
         $this->addElement('textarea', 'body', array(
             'label'      => 'Body:',
+            'filters'    => array(
+                array('StripTags', 'options'=>array('allowTags' => array('b', 'i', 'a')))
+            ),
             'required'   => true,
         ));
 
